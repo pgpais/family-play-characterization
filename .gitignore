@@ -1,0 +1,17 @@
+david/socgaming_adv_analysis.py
+david/socgaming_bas_analysis.py
+david/socgaming_igdb_collector.py
+david/socgaming_mongoaccess.py
+david/socgaming_reddit_collector_2.py
+david/socgaming_reddit_collector_3.py
+david/socgaming_reddit_collector_4.py
+david/socgaming_reddit_collector_5.py
+david/socgaming_reddit_collector_6.py
+david/socgaming_reddit_collector.py
+david/socgaming_report_converter.py
+david/socgaming_topic_modeling.py
+david/temp.py
+
+*.csv
+*.json
+.env
