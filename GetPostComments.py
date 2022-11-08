@@ -69,7 +69,7 @@ for post_id in post_ids:
         print("Checking comment " + comment.id + " for keywords")
         for keyword in keywords:
             if(keyword in comment.body):
-                comment_data = [post_id, submission.title, submission.subreddit.name, comment.id, comment.body, comment.score]
+                comment_data = [post_id, submission.title, submission.subreddit.display_name, comment.id, comment.body, comment.score]
                 comments_data.append(comment_data)
                 comment_count += 1
                 print("Comment Found: " + comment.id)
