@@ -15,3 +15,4 @@ david/temp.py
 *.csv
 *.json
 .env
+nohup.out
