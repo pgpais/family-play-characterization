@@ -1,9 +1,7 @@
 import csv
 import os
-from xml.dom import NotFoundErr
 import praw
 from dotenv import load_dotenv
-import json
 load_dotenv()
 
 # instantiate PRAW
@@ -41,7 +39,7 @@ print("Keywords read")
 print("Counting Posts")
 post_data_headers =["subreddit", "num_posts"]
 
-# Count posts for each keyword
+# Count posts
 for keywords_title in keywords_titles:
     keywords = keywords_list[keywords_title]
     hot_posts = []

@@ -19,7 +19,6 @@ keywords = []
 print("Gathering Keywords")
 with open("Keywords/RedditTitleKeywords.txt", "r") as file:
     line = file.readline()
-    #TODO: remove beginning and end from keywords
     line = line.replace("title:(","")
     line = line.replace(") self:true","")
     keywords = line.split(" OR ")
