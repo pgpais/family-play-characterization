@@ -6,12 +6,12 @@ from dotenv import load_dotenv
 from pmaw import PushshiftAPI
 
 load_dotenv()
+MIN_POST_THRESHOLD = 1000;
 
 reddit = praw.Reddit(client_id = os.getenv("CLIENT_ID"), client_secret= os.getenv("CLIENT_SECRET"), user_agent= os.getenv("USER_AGENT"))
 api = PushshiftAPI(praw=reddit)
 
 # Read subreddits from text files from Communities folder
-# TODO: read subreddits from new .csv file with them ordered by relevance (ratio of posts with keywords and general posts)
 subreddits = []
 for filename in os.listdir("Communities"):
     if filename.endswith(".txt"):
@@ -36,7 +36,7 @@ subreddits_relevance_data_headers = ["subreddit", "relevance", "num_relevant_pos
 for subreddit in subreddits:
     print("Gathering posts in r/" + subreddit)
     try:
-        gen = api.search_submissions(subreddit=subreddit, mem_safe=True, limit = 133, sorted="desc", sort_type="score")
+        gen = api.search_submissions(subreddit=subreddit, mem_safe=True, sorted="desc", sort_type="score")
     except Exception as e:
         print ("Error reaching r/" + subreddit)
     print("Counting Posts in r/" + subreddit)
@@ -44,7 +44,6 @@ for subreddit in subreddits:
     relevant_post_count = 0
     for post in gen:
         post_count += 1
-        #TODO: see if keywords are in post content
         for keyword in keywords:
             regex_keyword = r"\b"+keyword+r"\b"
             regex_search = re.search(regex_keyword, post["title"], flags=re.IGNORECASE)
@@ -55,7 +54,7 @@ for subreddit in subreddits:
     print(f'{relevant_post_count} posts found with keywords in r/{subreddit}')
 
     # Calculate relevance
-    if post_count == 0:
+    if post_count < MIN_POST_THRESHOLD:
         relevance = 0
     else:
         relevance = relevant_post_count/post_count
@@ -72,3 +71,7 @@ for subreddit in subreddits:
 
 
 print("Subreddits sorted by relevance")
+
+print("Fetching posts")
+exec(open("GetPostsInfo.py").read())
+print("Posts fetched")

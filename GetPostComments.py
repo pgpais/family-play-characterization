@@ -7,7 +7,7 @@ import json
 load_dotenv() # Load environment variables from .env file
 
 # Search Variables
-max_comments = -1 # How many comments per post
+max_comments = 2 # How many comments per post
 max_posts = -1 # How many posts to search
 
 # instantiate PRAW
@@ -78,4 +78,4 @@ with open('comments_data.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     for comment_data in comments_data:
         writer.writerow(comment_data)
-print("Posts Gathered")
+print("Comments Gathered")

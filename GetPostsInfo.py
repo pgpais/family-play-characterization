@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-POSTS_PER_GAMING_SUBREDDIT = 5
-POSTS_PER_GAME_SUBREDDIT = 5
+POSTS_PER_GAMING_SUBREDDIT = 10 * 2
+POSTS_PER_GAME_SUBREDDIT = 5 * 2
 USE_RELEVANT_SUBREDDITS = True
 
 print("Instantiating PRAW")
@@ -77,12 +77,12 @@ post_ids.pop(0) # remove header
 
 # Get post content from post IDs
 post_content = []
-post_content_headers = ["title", "content"]
+post_content_headers = ["subreddit", "title", "content"]
 for post_id in post_ids:
     try:
         submission = reddit.submission(id=post_id)
         print("Getting content from post " + post_id + " from r/" + submission.subreddit.display_name)
-        post_content_data = [submission.title, submission.selftext]
+        post_content_data = [submission.subreddit.display_name, submission.title, submission.selftext]
         post_content.append(post_content_data)
         print("Got post content")
     except Exception as e:
@@ -92,3 +92,7 @@ with open ("posts_content_sorted_relevance" + ".csv", "w", encoding='UTF-8') as 
     write = csv.writer(file)
     write.writerow(post_content_headers)
     write.writerows(post_content)
+
+print("Fetching posts")
+exec(open("GetPostComments.py").read())
+print("Posts fetched")
