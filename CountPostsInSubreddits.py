@@ -19,11 +19,11 @@ for filename in os.listdir("Communities"):
             communities = file.read().split(" OR ")
             for community in communities:
                 subreddits.append(community.replace("/r/", ""))
-print("Subreddits read")
+print("Subreddits read", file=open('output.txt', 'a'))
 
 # Get Keywords
 keywords = []
-print("Gathering Keywords")
+print("Gathering Keywords", file=open('output.txt', 'a'))
 with open("Keywords/RedditTitleKeywords.txt", "r") as file:
     line = file.readline()
     line = line.replace("title:(","")
@@ -34,12 +34,12 @@ with open("Keywords/RedditTitleKeywords.txt", "r") as file:
 subreddits_relevance_data = []
 subreddits_relevance_data_headers = ["subreddit", "relevance", "num_relevant_posts", "num_posts_total"]
 for subreddit in subreddits:
-    print("Gathering posts in r/" + subreddit)
+    print("Gathering posts in r/" + subreddit, file=open('output.txt', 'a'))
     try:
         gen = api.search_submissions(subreddit=subreddit, mem_safe=True, sorted="desc", sort_type="score")
     except Exception as e:
-        print ("Error reaching r/" + subreddit)
-    print("Counting Posts in r/" + subreddit)
+        print ("Error reaching r/" + subreddit, file=open('output.txt', 'a'))
+    print("Counting Posts in r/" + subreddit, file=open('output.txt', 'a'))
     post_count = 0
     relevant_post_count = 0
     for post in gen:
@@ -50,8 +50,8 @@ for subreddit in subreddits:
             if regex_search is not None:
                 relevant_post_count += 1
                 break
-    print(f'{post_count} posts found in r/{subreddit}')
-    print(f'{relevant_post_count} posts found with keywords in r/{subreddit}')
+    print(f'{post_count} posts found in r/{subreddit}', file=open('output.txt', 'a'))
+    print(f'{relevant_post_count} posts found with keywords in r/{subreddit}', file=open('output.txt', 'a'))
 
     # Calculate relevance
     if post_count < MIN_POST_THRESHOLD:
@@ -70,8 +70,8 @@ for subreddit in subreddits:
         write.writerows(subreddits_relevance_data)
 
 
-print("Subreddits sorted by relevance")
+print("Subreddits sorted by relevance", file=open('output.txt', 'a'))
 
-print("Fetching posts")
+print("Fetching posts", file=open('output.txt', 'a'))
 exec(open("GetPostsInfo.py").read())
-print("Posts fetched")
+print("Posts fetched", file=open('output.txt', 'a'))

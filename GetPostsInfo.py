@@ -33,9 +33,9 @@ subreddits.pop(0) # remove header
 #             communities = file.read().split(" OR ")
 #             for community in communities:
 #                 subreddits.append(community.replace("/r/", ""))
-print("Subreddits read")
+print("Subreddits read", file=open('output.txt', 'a'))
 
-print("Gathering Keywords")
+print("Gathering Keywords", file=open('output.txt', 'a'))
 # Read search keywords from text files from Keywords folder
 
 keywords = ""
@@ -43,19 +43,19 @@ with open("Keywords/RedditTitleKeywords.txt", "r") as file:
     keywords = file.read()
 
 
-print("Gathering Posts Info")
+print("Gathering Posts Info", file=open('output.txt', 'a'))
 post_data_headers = ["id", "subreddit", "title", "score", "comms_num", "created", "url"]
 hot_posts = []
 hot_posts_json = []
 post_data = []
 for subreddit in subreddits:
-    print("Gathering in r/" + subreddit)
+    print("Gathering in r/" + subreddit, file=open('output.txt', 'a'))
     try:
         hot_posts_search = reddit.subreddit(subreddit).search(query=keywords,limit=POSTS_PER_GAMING_SUBREDDIT, sort="top")
         for post in hot_posts_search:
             post_data.append([post.id, post.subreddit.display_name, post.title, post.score, post.num_comments, post.created_utc, post.url])
     except Exception as e:
-        print ("Error reaching subreddit " + subreddit)
+        print ("Error reaching subreddit " + subreddit, file=open('output.txt', 'a'))
 
 # post_data.sort(key=lambda x: x[3], reverse=True)
 
@@ -64,9 +64,9 @@ with open ("posts_info_sorted_relevance" + ".csv", "w", encoding='UTF-8') as fil
     write.writerow(post_data_headers)
     write.writerows(post_data)
 
-print("Posts Info Gathered")
+print("Posts Info Gathered", file=open('output.txt', 'a'))
 
-print("Gathering Posts Content")
+print("Gathering Posts Content", file=open('output.txt', 'a'))
 # Get post IDs from posts_info_sorted_relevance.csv
 post_ids = []
 with open("posts_info_sorted_relevance.csv", "r") as file:
@@ -81,18 +81,18 @@ post_content_headers = ["subreddit", "title", "score", "url", "content"]
 for post_id in post_ids:
     try:
         submission = reddit.submission(id=post_id)
-        print("Getting content from post " + post_id + " from r/" + submission.subreddit.display_name)
+        print("Getting content from post " + post_id + " from r/" + submission.subreddit.display_name, file=open('output.txt', 'a'))
         post_content_data = [submission.subreddit.display_name, submission.title, submission.score, submission.url, submission.selftext]
         post_content.append(post_content_data)
-        print("Got post content")
+        print("Got post content", file=open('output.txt', 'a'))
     except Exception as e:
-        print("Error reaching post " + post_id)
+        print("Error reaching post " + post_id, file=open('output.txt', 'a'))
 
 with open ("posts_content_sorted_relevance" + ".csv", "w", encoding='UTF-8') as file:
     write = csv.writer(file)
     write.writerow(post_content_headers)
     write.writerows(post_content)
 
-print("Fetching posts")
+print("Fetching comments", file=open('output.txt', 'a'))
 exec(open("GetPostComments.py").read())
-print("Posts fetched")
+print("Comments fetched", file=open('output.txt', 'a'))
