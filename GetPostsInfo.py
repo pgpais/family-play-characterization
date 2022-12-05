@@ -77,12 +77,12 @@ post_ids.pop(0) # remove header
 
 # Get post content from post IDs
 post_content = []
-post_content_headers = ["subreddit", "title", "content"]
+post_content_headers = ["subreddit", "title", "score", "url", "content"]
 for post_id in post_ids:
     try:
         submission = reddit.submission(id=post_id)
         print("Getting content from post " + post_id + " from r/" + submission.subreddit.display_name)
-        post_content_data = [submission.subreddit.display_name, submission.title, submission.selftext]
+        post_content_data = [submission.subreddit.display_name, submission.title, submission.score, submission.url, submission.selftext]
         post_content.append(post_content_data)
         print("Got post content")
     except Exception as e:
