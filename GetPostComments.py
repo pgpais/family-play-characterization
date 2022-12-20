@@ -26,7 +26,7 @@ with open("Keywords/RedditTitleKeywords.txt", "r") as file:
 # Get subreddit IDs
 post_ids = []
 print("Gathering Post IDs", file=open('output.txt', 'a'))
-with open('posts_info_title_keywords.csv', mode ='r') as file:
+with open('posts_info_sorted_relevance.csv', mode ='r') as file:
     # reading the CSV file
     csvPosts = csv.reader(file)
 

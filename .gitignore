@@ -16,3 +16,4 @@ david/temp.py
 *.json
 .env
 nohup.out
+output.txt
