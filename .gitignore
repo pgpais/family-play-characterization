@@ -17,3 +17,4 @@ david/temp.py
 .env
 nohup.out
 output.txt
+cache/*
