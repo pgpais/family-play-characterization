@@ -1,1 +1,25 @@
-(family OR families OR dad OR mom OR father OR mother OR brother OR sister OR bro OR sis OR grandma OR grandmother OR grandpa OR grandfather OR gran OR uncle OR aunt OR nephew OR cousin OR siblings OR niece OR wife OR husband) self:true
+family
+families
+dad
+mom
+father
+mother
+brother
+sister
+bro
+sis
+grandma
+grandmother
+grandpa
+grandfather
+gran
+uncle
+aunt
+nephew
+cousin
+siblings
+niece
+wife
+husband
+
+self:true

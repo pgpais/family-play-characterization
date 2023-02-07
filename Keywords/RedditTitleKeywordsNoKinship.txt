@@ -1,1 +1,5 @@
-title:(family OR families) self:true
+title:(
+    family
+families
+)
+self:true
