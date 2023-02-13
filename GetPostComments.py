@@ -14,14 +14,13 @@ max_posts = -1 # How many posts to search
 reddit = praw.Reddit(client_id = os.getenv("CLIENT_ID"), client_secret= os.getenv("CLIENT_SECRET"), user_agent= os.getenv("USER_AGENT"))
 print("PRAW instantiated", file=open('output.txt', 'a'))
 
+# TODO: just get the first X top-level comments (see your notes). So remove this keyword filtering procedure
 # Get Keywords
 keywords = []
 print("Gathering Keywords", file=open('output.txt', 'a'))
 with open("Keywords/RedditTitleKeywords.txt", "r") as file:
-    line = file.readline()
-    line = line.replace("title:(","")
-    line = line.replace(") self:true","")
-    keywords = line.split(" OR ")
+    line = file.read()
+    keywords = line.split("\n")
 
 # Get subreddit IDs
 post_ids = []

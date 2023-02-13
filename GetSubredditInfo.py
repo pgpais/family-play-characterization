@@ -15,7 +15,7 @@ subreddits = []
 for filename in os.listdir("Communities"):
     if filename.endswith(".txt"):
         with open("Communities/" + filename, "r") as file:
-            communities = file.read().split(" OR ")
+            communities = file.read().split("\n")
             for community in communities:
                 subreddits.append(community.replace("/r/", ""))
 print("Subreddits read")

@@ -16,7 +16,7 @@ subreddits = []
 for filename in os.listdir("Communities"):
     if filename.endswith(".txt"):
         with open("Communities/" + filename, "r") as file:
-            communities = file.read().split(" OR ")
+            communities = file.read().split("\n")
             for community in communities:
                 subreddits.append(community.replace("/r/", ""))
 print("Subreddits read", file=open('output.txt', 'a'))
@@ -25,10 +25,8 @@ print("Subreddits read", file=open('output.txt', 'a'))
 keywords = []
 print("Gathering Keywords", file=open('output.txt', 'a'))
 with open("Keywords/RedditTitleKeywords.txt", "r") as file:
-    line = file.readline()
-    line = line.replace("title:(","")
-    line = line.replace(") self:true","")
-    keywords = line.split(" OR ")
+    line = file.read()
+    keywords = line.split("\n")
 
 # Get amount of posts in one subreddit
 subreddits_relevance_data = []
@@ -52,6 +50,7 @@ for subreddit in subreddits:
                 break
     print(f'{post_count} posts found in r/{subreddit}', file=open('output.txt', 'a'))
     print(f'{relevant_post_count} posts found with keywords in r/{subreddit}', file=open('output.txt', 'a'))
+
 
     # Calculate relevance
     if post_count < MIN_POST_THRESHOLD:

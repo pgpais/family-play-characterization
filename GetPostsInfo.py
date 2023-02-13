@@ -38,9 +38,12 @@ print("Subreddits read", file=open('output.txt', 'a'))
 print("Gathering Keywords", file=open('output.txt', 'a'))
 # Read search keywords from text files from Keywords folder
 
-keywords = ""
+keywords = []
 with open("Keywords/RedditTitleKeywords.txt", "r") as file:
-    keywords = file.read()
+    lines = file.read()
+    keywords = lines.split("\n")
+
+query = "title:("+ (" OR ".join(keywords)) + ")"
 
 
 print("Gathering Posts Info", file=open('output.txt', 'a'))
@@ -51,7 +54,7 @@ post_data = []
 for subreddit in subreddits:
     print("Gathering in r/" + subreddit, file=open('output.txt', 'a'))
     try:
-        hot_posts_search = reddit.subreddit(subreddit).search(query=keywords,limit=POSTS_PER_GAMING_SUBREDDIT, sort="top")
+        hot_posts_search = reddit.subreddit(subreddit).search(query=query,limit=POSTS_PER_GAMING_SUBREDDIT, sort="top")
         for post in hot_posts_search:
             post_data.append([post.id, post.subreddit.display_name, post.title, post.score, post.num_comments, post.created_utc, post.url])
     except Exception as e:
