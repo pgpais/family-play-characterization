@@ -7,25 +7,17 @@ import json
 load_dotenv() # Load environment variables from .env file
 
 # Search Variables
-max_comments = 2 # How many comments per post
+max_comments = 1 # How many top-level comments per post
 max_posts = -1 # How many posts to search
 
 # instantiate PRAW
 reddit = praw.Reddit(client_id = os.getenv("CLIENT_ID"), client_secret= os.getenv("CLIENT_SECRET"), user_agent= os.getenv("USER_AGENT"))
 print("PRAW instantiated", file=open('output.txt', 'a'))
 
-# TODO: just get the first X top-level comments (see your notes). So remove this keyword filtering procedure
-# Get Keywords
-keywords = []
-print("Gathering Keywords", file=open('output.txt', 'a'))
-with open("Keywords/RedditTitleKeywords.txt", "r") as file:
-    line = file.read()
-    keywords = line.split("\n")
-
 # Get subreddit IDs
 post_ids = []
 print("Gathering Post IDs", file=open('output.txt', 'a'))
-with open('posts_info_sorted_relevance.csv', mode ='r') as file:
+with open('included_posts.csv', mode ='r', encoding='UTF-8') as file:
     # reading the CSV file
     csvPosts = csv.reader(file)
 
@@ -64,14 +56,10 @@ for post_id in post_ids:
     for comment in comments:
         if(max_comments > 0 and comment_count >= max_comments):
             break
-        print("Checking comment " + comment.id + " for keywords", file=open('output.txt', 'a'))
-        for keyword in keywords:
-            if(keyword in comment.body):
-                comment_data = [post_id, submission.title, submission.subreddit.display_name, comment.id, comment.body, comment.score]
-                comments_data.append(comment_data)
-                comment_count += 1
-                print("Comment Found: " + comment.id, file=open('output.txt', 'a'))
-                break
+        comment_data = [post_id, submission.title, submission.subreddit.display_name, comment.id, comment.body, comment.score]
+        comments_data.append(comment_data)
+        comment_count += 1
+        print("Comment Found for post "+ post_id +": " + comment.id, file=open('output.txt', 'a'))
 
 with open('comments_data.csv', 'w', newline='') as file:
     writer = csv.writer(file)
