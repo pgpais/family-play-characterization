@@ -39,7 +39,7 @@ print("Post IDs Gathered", file=open('output.txt', 'a'))
 
 
 print("Gathering Comments", file=open('output.txt', 'a'))
-comment_csv_headers = ["post_id", "post_title", "subreddit", "comment_id", "comment_body", "comment_score"]
+comment_csv_headers = ["subreddit","post_id","comment_id", "post_title", "post_body",  "comment_body", "comment_score"]
 comments_data = []
 comments_data.append(comment_csv_headers)
 
@@ -56,7 +56,7 @@ for post_id in post_ids:
     for comment in comments:
         if(max_comments > 0 and comment_count >= max_comments):
             break
-        comment_data = [post_id, submission.title, submission.subreddit.display_name, comment.id, comment.body, comment.score]
+        comment_data = [submission.subreddit.display_name, post_id, comment.id, submission.title, submission.selftext, comment.body, comment.score]
         comments_data.append(comment_data)
         comment_count += 1
         print("Comment Found for post "+ post_id +": " + comment.id, file=open('output.txt', 'a'))
